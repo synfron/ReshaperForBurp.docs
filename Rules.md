@@ -34,6 +34,7 @@ Note: HTTP message values that are accessible by WebSocket Rule operations refer
 		- [Log](#log)
 		- [Parse HTTP Message](#parse-http-message)
 		- [Prompt](#prompt)
+		- [Read File](#read-file)
 		- [Repeat](#repeat)
 		- [Run Process](#run-process)
 		- [Run Rules](#run-rules)
@@ -108,7 +109,7 @@ Availability: HTTP, WebSocket
 
 #### Fields
 
-URL - The URL to check or leave blank to use the current request's URL. Supports variable tags.
+URL - The URL to check. If added to a HTTP rule, this field can be left blank to use the current request's URL. Supports variable tags.
 
 ### Matches Text
 
@@ -372,6 +373,22 @@ Capture Variable Source - Single item or list variants of the Global, Event, or 
 
 Capture Variable Name - The name of the variable to store the response message. Supports variable tags.
 
+### Read File
+
+Read a file
+
+Availability: HTTP, WebSocket
+
+#### Fields
+
+File Path - File path of the file including the file name. Supports variable tags.
+
+Encoding - The charset/encoding of the file (e.g. UTF-8). Supports variable tags.
+
+Capture Variable Source - Single item or list variants of the Global, Event, or Session scope. See [Set List Variable](#set-list-variable) for fields that are available if a list variant is chosen.
+
+Capture Variable Name - The name of the variable to store the captured output. Supports variable tags.
+
 ### Repeat
 
 Repeat a group of Then actions by count, boolean value, or for each item in a list
@@ -522,19 +539,25 @@ Availability: HTTP, WebSocket
 
 #### Fields
 
-Send To - Comparer, Intruder, Repeater, or Browser
+Send To - Comparer, Intruder, Repeater, Browser, Organizer, Decoder, or Site Map
 
 Override Defaults - Select to be able to override values to send to the given Burp tool
 
-Host - Leave empty to use the default value. Only available for Intruder and Repeater and if `Override Defaults` is selected. Supports variable tags.
+Host - Leave empty to use the default value. Only available for Intruder, Repeater, Organizer, and Site Map, and if `Override Defaults` is selected. Supports variable tags.
 
-Port - Leave empty to use the default value. Only available for Intruder and Repeater and if `Override Defaults` is selected. Supports variable tags.
+Port - Leave empty to use the default value. Only available for Intruder, Repeater, Organizer, and Site Map, and if `Override Defaults` is selected. Supports variable tags.
 
-Protocol - HTTP or HTTPS. Leave empty to use the default value. Only available for Intruder and Repeater and if `Override Defaults` is selected. Supports variable tags.
+Protocol - HTTP or HTTPS. Leave empty to use the default value. Only available for Intruder, Repeater, Organizer, and Site Map, and if `Override Defaults` is selected. Supports variable tags.
 
-Request - Full HTTP request text. Leave empty to use the default value. Only available for Intruder and Repeater and if `Override Defaults` is selected. Supports variable tags.
+Request - Full HTTP request text. Leave empty to use the default value. Only available for Intruder, Repeater, Organizer, and Site Map, and if `Override Defaults` is selected. Supports variable tags.
 
-Value - Value to compare. Leave empty to use the default value. Only available for Comparer and if `Override Defaults` is selected. Supports variable tags.
+Response - Full HTTP response text. Leave empty to use the default value. Only available for Organizer and Site Map, and Site Map, and if `Override Defaults` is selected. Supports variable tags.
+
+Comment - Comment to add to the line item for this event. Only available for Site Map, and if `Override Defaults` is selected.
+
+Highlight Color - Highlight color of the line item for this event. Only available for Site Map, and if `Override Defaults` is selected.
+
+Value - Value to compare. Leave empty to use the default value. Only available for Comparer and Decoder, and if `Override Defaults` is selected. Supports variable tags.
 
 URL - Leave empty to use the default value. Only available for Browser, and `Override Defaults` is selected. Supports variable tags.
 
