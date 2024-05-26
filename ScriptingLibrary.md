@@ -55,7 +55,7 @@ Parameters:
 
 thenType - BuildHttpMessage, Break, DeleteValue, DeleteVariable, Drop, Highlight, Log, ParseHttpMessage, SendRequest, SendTo, SetEventDirection, SetValue, or SetVariable
 
-thenData - Object containing the properties for the Then action. See below.
+thenData - Object containing the properties for the Then action. See below. Note, the fields that are used or required for each type match the display of fields in the UI.
 
 BuildHttpMessage
 ```
@@ -67,8 +67,11 @@ BuildHttpMessage
         destinationIdentifier: string
         sourceText: string
     }]
-    destinationVariableSource: "Global" | "Event"
+    destinationVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
     destinationVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
 }
 ```
 Comment
@@ -82,19 +85,92 @@ Delete Value
 {
     messageValue: MessageValueKey
     identifier: string
+    identifierPlacement: "First" | "Last" | "All"
 }
 ```
 Delete Variable
 ```
 {
-    targetSource: "Global" | "Event"
+    targetSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
     variableName: string
+    itemPlacement: "First" | "Last" | "Index" | "All"
+    index: number
 }
 ```
 Drop
 ```
 {
     dropMessage: boolean
+}
+```
+Evaluate
+```
+{
+    x: string
+    operation: "Add" | "Subtract" | "Multiply" | "DivideBy" | "Increment" | "Decrement" | "Mod" | "Abs" | "Round" | "Not" | "Equals" | "NotEquals" | "Contains" | "GreaterThan" | "GreaterThanOrEquals" | "LessThan" | "LessThanOrEquals"
+    y: string
+    destinationVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
+    destinationVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
+
+}
+```
+Extract
+```
+{
+    text: string
+    extractorType: "Regex" | "Json" | "CssSelector" | "XPath" | "Chunk"
+    extractor: string
+    listVariableSource: "Event List" | "Global List" | "Session List"
+    listVariableName: string
+    delimiter: string
+    itemPlacement: "AddFirst" | "AddLast" | "Overwrite"
+}
+```
+Generate
+```
+{
+    generationOption: "Uuid" | "Words" | "Password" | "Bytes" | "Integer" | "IpAddress" | "Timestamp"
+    "UnixTimestamp"
+    generator: { 
+        version: "V3" | "V4" | "V5"
+        namespace: string
+        name: string
+     } | {
+        generatorType: "Word" | "Sentence" | "Paragraph"
+        count: number
+        separator: string
+     } | {
+        minLength: number
+        maxLength: number
+        characterGroups: [
+            "LowercaseLetters" | "UppercaseLetters" | "Numbers" | "Symbols"
+        ]
+     } | {
+        length: number
+        encoding: string
+     } | {
+        minValue: number
+        maxValue: number
+        base: number
+     } | {
+        version: "V4" | "V6"
+     } | {
+        format: string
+        minTimestamp: string
+        maxTimestamp: string
+     } | {
+        format: string
+        minTimestamp: string
+        maxTimestamp: string
+     }
+    destinationVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
+    destinationVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
 }
 ```
 Highlight
@@ -106,7 +182,7 @@ Highlight
 Intercept
 ```
 {
-    interceptResponse: UserDefined | Disable | Intercept
+    interceptResponse: "UserDefined" | "Disable" | "Intercept"
 }
 ```
 Log
@@ -123,46 +199,86 @@ ParseHttpMessage
     messageValueGetters: [{
         sourceMessageValue: MessageValueKey
         sourceIdentifier: string
-        destinationVariableSource: "Global" | "Event"
+        destinationVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
         destinationVariableName: string
+        itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+        delimiter: string
+        index: number
     }]
+}
+```
+ReadFile
+```
+{
+    filePath: string
+    encoding: string
+    breakAfterFailure: string
+    captureAfterFailure: string
+    captureVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
+    captureVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: string
+}
+```
+SaveFile
+```
+{
+    filePath: string
+    text: string
+    encoding: string
+    fileExistsAction: "None" | "Append" | "Overwrite"
 }
 ```
 SendMessage
 ```
 {
     dataDirection: "Server" | "Client"
+    messageType: "Text" | "Binary"
     message: string
 }
 ```
 SendRequest
 ```
 {
+    request: string
+    url: string
     protocol: "http" | "https"
     address: string
     port: number
-    request: string
     waitForCompletion: boolean
     failAfter: number
     failOnErrorStatusCode: boolean
     breakAfterFailure: boolean
     captureOutput: boolean
     captureAfterFailure: boolean
-    captureVariableSource: "Global" | "Event"
+    captureVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
     captureVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
 }
 ```
 SendTo
 ```
 {
-    sendTo: "Comparer" | "Intruder" | "Repeater" | "Browser"
+    sendTo: "Comparer" | "Intruder" | "Repeater" | "Spider" |  "Browser" | "Organizer" | "Decoder" | "SiteMap"
     overrideDefaults: boolean
     host: string
     port: number
     protocol: "http" | "https"
     request: string
+    response: string
+    comment: string
+    highlightColor: "None" | "Red" | "Orange" | "Yellow" | "Green" | "Cyan" | "Blue" | "Pink" | "Magenta" | "Gray"
     value: string
     url: string
+}
+```
+SetEncoding
+```
+{
+    encoding: string
 }
 ```
 SetEventDirection
@@ -178,12 +294,13 @@ SetValue
     useMessageValue: boolean
     sourceMessageValue: MessageValueKey
     sourceIdentifier: string
-    sourceMessageValueType: "Text" | "JSON" | "XML"
+    sourceIdentifierPlacement: "First" | "Last"
+    sourceMessageValueType: "Text" | "JSON" | "XML" | "Params"
     sourceMessageValuePath: string
     useReplace: boolean
     regexPattern: string
     replacementText: string
-    destinationMessageValueType: "Text" | "JSON" | "XML"
+    destinationMessageValueType: "Text" | "JSON" | "XML" | "Params"
     destinationMessageValuePath: string
     destinationMessageValue: MessageValueKey
     destinationIdentifier: string
@@ -196,15 +313,53 @@ SetVariable
     useMessageValue: boolean
     sourceMessageValue: MessageValueKey
     sourceIdentifier: string
-    sourceMessageValueType: "Text" | "JSON" | "XML"
+    sourceIdentifierPlacement: "First" | "Last"
+    sourceMessageValueType: "Text" | "JSON" | "XML" | "Params"
     sourceMessageValuePath: string
     useReplace: boolean
     regexPattern: string
     replacementText: string
-    destinationMessageValueType: "Text" | "JSON" | "XML"
+    destinationMessageValueType: "Text" | "JSON" | "XML" | "Params"
     destinationMessageValuePath: string
-    targetSource: "Global" | "Event"
+    targetSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
     variableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
+}
+```
+Transform
+```
+{
+    transformnOption: "Base64" | "Escape" | "JwtDecode" | "Case" | "Hash" | "Hex" | "Integer" | "Trim"
+    transformer: { 
+        action: "Encode" | "Decode"
+        variant: "Standard" | "Url"
+        encoding: string
+     } | {
+        entityType: "Html" | "Xml" | "Json" | "Url"
+        action: "Escape" | "Unescape"
+     } | {
+        segment: "Header" | "Payload" | "Signature"
+     } | {
+        phraseCase: "LowerCase" | "UpperCase" | "FlatCase" | "CamelCase" | "PascalCase" | "SnakeCase" | "ConstantCase" | "DashCase" | "CobolCase" | "TitleCase" | "SentenceCase"
+     } | {
+        hashType: "Sha1" | "Sha256" | "Sha512" | "Sha256V3" | "Sha512V3" | "Md5"
+     } | {
+        action: "FromText" | "ToText"
+        encoding: string
+     } | {
+        sourceBase: number
+        targetBase: number
+     } | {
+        trimOption: "Start" | "End" | "StartAndEnd"
+        characters: string
+     }
+    destinationVariableSource: "Event" | "Global" | "Session" | "Event List" | "Global List" | "Session List"
+    destinationVariableName: string
+    itemPlacement: "First" | "Last" | "Index" | "AddFirst" | "AddLast" | "All"
+    delimiter: string
+    index: number
 }
 ```
 

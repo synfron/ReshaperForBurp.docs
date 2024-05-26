@@ -35,31 +35,63 @@ Special character variables provide access to special characters which typically
 Variables can be read by Whens and Thens when a variable tag is specified in supporting text fields. Variable tags can be typed in manually or inserted via the right-click menu for those text fields.
 {% raw %}
 
-**Event Variable Tag (event, e):** `{{event:MyVariableName}}`
+Note, use of `<someText>` in the syntax definitions below signify a description of the value that it needs to be replaced with. `<` and `>` should not remain in the final tag. Values not surrounded by `<` and `>` are literal values. Surround the value in quotes (`"`) if the value contains special characters or any of the following characters: `{}:`.
 
-**Event List Variable Tag (eventlist, el):** `{{eventlist:MyVariableName}}` or `{{eventlist:MyVariableName:all}}`: Full text (All items concatenated), `{{eventlist:MyVariableName:first}}`: First item, `{{eventlist:MyVariableName:last}}`: Last item, `{{eventlist:MyVariableName:3}}`: Item at index 3 (can be index value), `{{eventlist:MyVariableName:size}}`: Count of items
+### Event Variable Tag (event, e)
+Syntax - `{{event:<MyVariableName>}}`
 
-**Global Variable Tag (global, g):** `{{global:MyVariableName}}`
+### Event List Variable Tag (eventlist, el)
+Syntax - `{{eventlist:<MyVariableName>}}` or `{{eventlist:<MyVariableName>:all}}`: Full text (All items concatenated), `{{eventlist:<MyVariableName>:first}}`: First item, `{{eventlist:<MyVariableName>:last}}`: Last item, `{{eventlist:<MyVariableName>:<index>}}`: Item at index, `{{eventlist:<MyVariableName>:<size>}}`: Count of items
 
-**Global List Variable Tag (globallist, el):** `{{globallist:MyVariableName}}` or `{{globallist:MyVariableName:all}}`: Full text (All items concatenated), `{{globallist:MyVariableName:first}}`: First item, `{{globallist:MyVariableName:last}}`: Last item, `{{globallist:MyVariableName:3}}`: Item at index 3 (can be index value), `{{globallist:MyVariableName:size}}`: Count of items
+### Global Variable Tag (global, g)
+Syntax - `{{global:<MyVariableName>}}`
 
-**Session Variable Tag (session, sn):** `{{session:MyVariableName}}`
+### Global List Variable Tag (globallist, el)
+Syntax - `{{globallist:<MyVariableName>}}` or `{{globallist:<MyVariableName>:all}}`: Full text (All items concatenated), `{{globallist:<MyVariableName>:first}}`: First item, `{{globallist:<MyVariableName>:last}}`: Last item, `{{globallist:<MyVariableName>:<index>}}`: Item at index, `{{globallist:<MyVariableName>:size}}`: Count of items
 
-**Session List Variable Tag (sessionlist, el):** `{{sessionlist:MyVariableName}}` or `{{sessionlist:MyVariableName:all}}`: Full text (All items concatenated), `{{sessionlist:MyVariableName:first}}`: First item, `{{sessionlist:MyVariableName:last}}`: Last item, `{{sessionlist:MyVariableName:3}}`: Item at index 3 (can be index value), `{{sessionlist:MyVariableName:size}}`: Count of items
+### Session Variable Tag (session, sn)
+Syntax - `{{session:<MyVariableName>}}`
 
-For example, if Global variable named `firstName` has the value `John` and variable named `lastName` has the value `Smith`. A field with the value `{{global:firstName}}'s full name is {{global:firstName}} {{global:lastName}}` will be read as `John's full name is John Smith`.
+### Session List Variable Tag (sessionlist, el)
+Syntax - `{{sessionlist:<MyVariableName>}}` or `{{sessionlist:<MyVariableName>:all}}`: Full text (All items concatenated), `{{sessionlist:<MyVariableName>:first}}`: First item, `{{sessionlist:<MyVariableName>:last}}`: Last item, `{{sessionlist:<MyVariableName>:<index>}}`: Item at index, `{{sessionlist:<MyVariableName>:size}}`: Count of items
 
-**Message Variable Tag (message, m):** `{{message:messageValueKey}}` or `{{message:messageValueKey:identifier}}` (e.g. `{{message:httprequesturi}}`, `{{message:httprequestheader:Host}}`). See [Message Values](MessageValues.html#) to determine the appropriate values for `messageValueKey` and `identifier`.
+If Global variable named `firstName` has the value `John` and variable named `lastName` has the value `Smith`. A field with the value `{{global:firstName}}'s full name is {{global:firstName}} {{global:lastName}}` will be read as `John's full name is John Smith`.
 
-**Annotation Variable Tag (annotation, a):** `{{annotation:comment}}` to get the current comment or `{{annotation:highlightcolor}}` to get the current highlight color of the line item in HTTP or WebSocket history for this event.
+### Message Variable Tag (message, m)
+Syntax - `{{message:messageValueKey}}` or `{{message:messageValueKey:identifier}}` (e.g. `{{message:httprequesturi}}`, `{{message:httprequestheader:Host}}`). 
 
-**File Variable Tag (file, f):** `{{file:encoding:filePath}}`. Example: `{{file:utf-8:~/Documents/file.txt}}`
+See [Message Values](MessageValues.html) to determine the appropriate values for `messageValueKey` and `identifier`.
 
-**Special Character Tag (special, s):** `{{s:specialCharacterSequences}}`. Examples: `{{s:n}}` (new line), `{{s:rn}}` (carriage return + new line), `{{s:u00A9}}` (Copyright symbol)
+### Cookie Jar Tag (cookiejar, cj)
+Syntax - `{{cookiejar:domain:name}}` or `{{cookiejar:domain:name:path}}`. Example: `{{cookiejar:example.com:tracker:/}}`
 
-**Cookie Jar Tag (cookiejar, cj):** `{{cookiejar:domain:name}}` or `{{cookiejar:domain:name:path}}`. Example: `{{cookiejar:example.com:tracker:/}}`
+### Macro (macro, mc)
+Syntax - `{{macro:macroItemNumber:messageValueKey}}` or `{{macro:macroItemNumber:messageValueKey:identifier}}`. 
 
-**Macro (macro, mc):** `{{macro:macroItemNumber:messageValueKey}}` or `{{macro:macroItemNumber:messageValueKey:identifier}}`. This tag is only applicable when Reshaper is invoked by a session handling rule marco post-run action. See [Message Values](MessageValues.html#) to determine the appropriate values for `messageValueKey` and `identifier`.
+This tag is only applicable when Reshaper is invoked by a session handling rule marco post-run action. See [Message Values](MessageValues.html#) to determine the appropriate values for `messageValueKey` and `identifier`.
+
+### Annotation Variable Tag (annotation, a)
+Syntax - `{{annotation:comment}}` to get the current comment or `{{annotation:highlightcolor}}` to get the current highlight color of the line item in HTTP or WebSocket history for this event.
+
+### File Variable Tag (file, f)
+Syntax - `{{file:encoding:filePath}}`. Example: `{{file:utf-8:~/Documents/file.txt}}`
+
+### Generator Variable Tag (generator, gr)
+UUID Syntax - `{{generator:uuid:v3:<namespace>:<name>}}` or `{{generator:uuid:v4}}` or `{{generator:uuid:v5:<namespace>:<name>}}`<br>
+Words Syntax - `{{generator:words:<generatorType>:<count>:<separator>}}`<br>
+Password Syntax - `{{generator:password:<minLength>:<maxLength>:<commaSeparatedCharacterGroups>}}`<br>
+Bytes Syntax - `{{generator:bytes:<length>:<encoding>}}`<br>
+Integer Syntax - `{{generator:integer:<minValue>:<maxValue>:<base>}}`<br>
+IP Address Syntax - `{{generator:ipaddress:<V4|V6>}}`<br>
+Timestamp Syntax - `{{generator:timestamp:<format>}}` or `{{generator:timestamp:<format>:<minDateTime>:<maxDateTime>}}`<br>
+UNIX Timestamp Syntax - `{{generator:unixtimestamp}}` or `{{generator:unixtimestamp:<format>:<minDateTime>:<maxDateTime>}}`
+
+Provides the same generate options as [Then Generate](Thens.html#generate). See that documentation for more details.
+
+### Special Character Tag (special, s)
+Syntax - `{{s:specialCharacterSequences}}`
+
+For example, `{{s:n}}` returns a new line, `{{s:rn}}` returns carriage return + new line, and `{{s:u00A9}}` return the Copyright symbol.
 
 
 {% endraw %}
