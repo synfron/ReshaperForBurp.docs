@@ -32,7 +32,7 @@ Special character variables provide access to special characters which typically
 
 ## Variable Tags
 
-Variables can be read by Whens and Thens when a variable tag is specified in supporting text fields. Variable tags can be typed in manually or inserted via the right-click menu for those text fields.
+Variables can be read by Whens and Thens when a variable tag is specified in supporting text fields. Variable tags can be typed in manually or inserted via the `Insert Variable Tags` option in the right-click menu for those text fields.
 {% raw %}
 
 Note, use of `<someText>` in the syntax definitions below signify a description of the value that it needs to be replaced with. `<` and `>` should not remain in the final tag. Values not surrounded by `<` and `>` are literal values. Surround the value in quotes (`"`) if the value contains special characters or any of the following characters: `{}:`.
